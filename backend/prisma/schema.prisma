@@ -21,7 +21,7 @@ model User {
   updatedAt     DateTime    @updatedAt
   emailVerified Boolean     @default(false)
   role          Role        @default(USER)
-  
+  refreshToken  String?
   // Relations
   profile       Profile?
   posts         Post[]

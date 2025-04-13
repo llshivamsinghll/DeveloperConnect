@@ -1,15 +1,15 @@
-import UserController from "../controllers/userController.js";
-import express from "express";
+import express from 'express';
+import UserController from '../controllers/userController.js';
+import { authenticate, authorize } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-// Route to get all users   
-router.get("/", UserController.getAllUsers);  // Fixed to use controller instead of model
+// Public routes
+router.post('/', UserController.createUser); // Registration
 
-// Route to create a new user   
-router.post("/", UserController.createUser);
-
-// Route to get a user by ID
-router.get("/:id", UserController.getUserById);
+// Protected routes
+router.get('/', authenticate, authorize(['ADMIN']), UserController.getAllUsers);
+router.get('/me', authenticate, UserController.getCurrentUser);
+router.get('/:id', authenticate, UserController.getUserById);
 
 export default router;
